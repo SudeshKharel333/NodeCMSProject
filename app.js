@@ -4,7 +4,8 @@ const app = express()//storing it in variable app '"yo 2 ta line jun program ma 
 //telling the nodejs to set viewengine to ejs
 app.set('view engine', 'ejs')
 
-
+//database connection
+require("./model/index")
 
 //form bata data aairaxa parse gara or handle gar vaneko ho
 app.use(express.json())
