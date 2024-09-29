@@ -1,4 +1,5 @@
 const express = require('express')// express package express vnni variable ma rakhya
+const { blogs } = require('./model/index')
 const app = express()//storing it in variable app '"yo 2 ta line jun program ma pani hunxa"
 
 //telling the nodejs to set viewengine to ejs
@@ -18,8 +19,15 @@ app.get("/", (req, res) => {
     res.send("hello world")
 })
 //allblogs
-app.get("/blog", (req, res) => {
-    res.render("blog.ejs")
+app.get("/blog", async (req, res) => {
+
+
+    //table bata data nikalnu paryo
+    //blogs vanni table bata sabai data dey vaneko
+    const allBlogs = await blogs.findAll()
+    console.log(allBlogs)
+
+    res.render('blog', { blogs: allBlogs })
 })
 
 
@@ -31,10 +39,26 @@ app.get("/createBlog", (req, res) => {
 
 
 //createBlog Post
-app.post("/createBlog", (req, res) => {
-    console.log(req.body)
-    res.send("form submitted successfully")
-})
+app.post("/createBlog", async (req, res) => {
+    try {
+        // Extract data from the form
+        const { title, subtitle, description } = req.body;
+
+        // Insert the data into the "blogs" table
+        await blogs.create({
+            title: title,
+            subtitle: subtitle,
+            description: description
+        });
+
+        // Redirect to the blog listing page after successful submission
+        res.redirect("/blog");
+    } catch (error) {
+        console.error("Error creating blog:", error);
+        res.status(500).send("An error occurred while creating the blog.");
+    }
+});
+
 
 
 app.listen(3000, () => {
