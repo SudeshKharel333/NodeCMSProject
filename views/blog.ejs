@@ -81,6 +81,10 @@
                     <h2><%- blog.title %></h2>
                     <h3><%- blog.subtitle %></h3>
                     <p><%- blog.description %></p>
+                    <button>
+                        <a href="/delete/<%- blog.id %>">Delete</a>
+                    </button>
+
                 </div>
                 <% }) %>
                     <% } else { %>
